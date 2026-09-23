@@ -3,6 +3,7 @@
 import { parseAsInteger, useQueryState } from "nuqs";
 
 import { ProductsHeader } from "./components/products-header";
+import { ProductsList } from "./components/products-list";
 import { ProductsTable } from "./components/products-table";
 import { useProducts } from "./products-provider";
 
@@ -27,13 +28,25 @@ export function ProductsView() {
   return (
     <div className="flex flex-col gap-6">
       <ProductsHeader total={total} />
-      <ProductsTable
-        products={paginatedProducts}
-        total={total}
-        page={currentPage}
-        pageCount={pageCount}
-        onPageChange={setPage}
-      />
+      <div className="hidden md:block">
+        <ProductsTable
+          products={paginatedProducts}
+          total={total}
+          page={currentPage}
+          pageCount={pageCount}
+          onPageChange={setPage}
+        />
+      </div>
+
+      <div className="md:hidden">
+        <ProductsList
+          products={paginatedProducts}
+          total={total}
+          page={currentPage}
+          pageCount={pageCount}
+          onPageChange={setPage}
+        />
+      </div>
     </div>
   );
 }

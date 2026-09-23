@@ -1,5 +1,6 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import { Product } from "../types";
+import { Product, ProductStatus } from "../types";
+import { AvailabilityBadge } from "./availability-badge";
 
 export function ProductTableRow({ product }: { product: Product }) {
   return (
@@ -17,10 +18,10 @@ export function ProductTableRow({ product }: { product: Product }) {
         {product.grossPrice}
       </TableCell>
       <TableCell className="border-b border-border">
-        {product.status}
+        <AvailabilityBadge isAvailable={product.status === ProductStatus.AVAILABLE} />
       </TableCell>
       <TableCell className="border-b border-border text-foreground">
-        {product.stockQuantity}
+        {product.stockQuantity ?? "—"}
       </TableCell>
     </TableRow>
   );

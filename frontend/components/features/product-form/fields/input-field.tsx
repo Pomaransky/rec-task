@@ -15,6 +15,7 @@ export type InputFieldProps = {
   placeholder?: string;
   maxLength?: number;
   inputMode?: "text" | "numeric" | "decimal";
+  allowedPattern?: RegExp;
 };
 
 export function InputField({
@@ -27,6 +28,7 @@ export function InputField({
   placeholder,
   maxLength,
   inputMode = "text",
+  allowedPattern,
 }: InputFieldProps) {
   return (
     <FormField
@@ -42,7 +44,11 @@ export function InputField({
         maxLength={maxLength}
         inputMode={inputMode}
         aria-invalid={!!error}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => {
+          const next = event.target.value;
+          if (allowedPattern && !allowedPattern.test(next)) return;
+          onChange(next);
+        }}
         onBlur={onBlur}
       />
     </FormField>

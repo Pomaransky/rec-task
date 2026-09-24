@@ -7,12 +7,11 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { PRODUCT_FORM_ID, ProductForm } from "../../product-form/product-form";
+import { ProductForm } from "../../product-form/product-form";
 import { useProductForm } from "../../product-form/use-product-form";
 
 export function AddProductDialog() {
@@ -41,11 +40,6 @@ export function AddProductDialog() {
         </DialogHeader>
 
         <ProductForm form={form} />
-        <DialogFooter>
-        <Button type="submit" form={PRODUCT_FORM_ID}>
-          Submit
-        </Button>
-      </DialogFooter>
       </DialogContent>
     </Dialog>
   );

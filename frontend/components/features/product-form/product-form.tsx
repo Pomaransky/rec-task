@@ -1,115 +1,63 @@
-import { CATEGORIES, MANUFACTURERS, PRODUCT_CHARACTERISTICS } from "./constants";
-import { fieldError } from "./fied-error";
-import { InputField } from "./fields/input-field";
-import { MultiSelectField } from "./fields/multi-select-field";
-import { SelectField } from "./fields/select-field";
-import { TextareaField } from "./fields/textarea-field";
-import { ProductFormStepper } from "./product-form-stepper";
-import type { ProductFormApi } from "./use-product-form";
+"use client";
 
-export const PRODUCT_FORM_ID = "product-form";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { FORM_STEPS } from "./constants";
+import { ProductFormStepper } from "./product-form-stepper";
+import { AvailabilityStep } from "./steps/availability-step";
+import { BasicInfoStep } from "./steps/basic-info-step";
+import { PricingStep } from "./steps/pricing-step";
+import { STEP_FIELDS, type ProductFormApi } from "./use-product-form";
 
 type ProductFormProps = {
   form: ProductFormApi;
 };
 
+const STEPS = [BasicInfoStep, PricingStep, AvailabilityStep];
+
 export function ProductForm({ form }: ProductFormProps) {
+  const [step, setStep] = useState(0);
+  const isLastStep = step === FORM_STEPS.length - 1;
+  const Step = STEPS[step];
+
+  const goToNextStep = async () => {
+    const fields = STEP_FIELDS[step].filter((name) => form.getFieldMeta(name));
+
+    fields.forEach((name) => form.setFieldMeta(name, (meta) => ({ ...meta, isTouched: true })));
+    await form.validate("change");
+
+    const hasErrors = fields.some((name) => form.getFieldMeta(name)?.errors.length);
+    if (!hasErrors) setStep(step + 1);
+  };
+
   return (
-    <div className="flex flex-col gap-4">
-      <ProductFormStepper currentStep={0} />
-      <form
-        id={PRODUCT_FORM_ID}
-        noValidate
-        className="flex min-h-0 flex-1 flex-col gap-4 p-4"
-        onSubmit={(event) => {
-          event.preventDefault();
-          form.handleSubmit();
-        }}
-      >
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <form.Field name="name">
-            {(field) => (
-              <InputField
-                id={field.name}
-                label="Nazwa produktu"
-                value={field.state.value}
-                onChange={field.handleChange}
-                onBlur={field.handleBlur}
-                error={fieldError(field.state.meta)}
-              />
-            )}
-          </form.Field>
-          <form.Field name="sku">
-            {(field) => (
-              <InputField
-                id={field.name}
-                label="SKU produktu"
-                value={field.state.value}
-                onChange={field.handleChange}
-                onBlur={field.handleBlur}
-                error={fieldError(field.state.meta)}
-              />
-            )}
-          </form.Field>
-        </div>
-        <div className="flex flex-col gap-4">
-          <form.Field name="description">
-            {(field) => (
-              <TextareaField
-                id={field.name}
-                label="Opis produktu"
-                value={field.state.value}
-                onChange={field.handleChange}
-                onBlur={field.handleBlur}
-                error={fieldError(field.state.meta)}
-              />
-            )}
-          </form.Field>
-        </div>
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <form.Field name="manufacturer">
-            {(field) => (
-              <SelectField
-                id={field.name}
-                label="Producent"
-                placeholder="Wybierz producenta"
-                options={MANUFACTURERS}
-                value={field.state.value}
-                onChange={field.handleChange}
-                onBlur={field.handleBlur}
-                error={fieldError(field.state.meta)}
-              />
-            )}
-          </form.Field>
-          <form.Field name="category">
-            {(field) => (
-              <SelectField
-                id={field.name}
-                label="Kategoria"
-                placeholder="Wybierz kategorię"
-                options={CATEGORIES}
-                value={field.state.value}
-                onChange={field.handleChange}
-                onBlur={field.handleBlur}
-                error={fieldError(field.state.meta)}
-              />
-            )}
-          </form.Field>
-        </div>
-        <form.Field name="productCharacteristics">
-          {(field) => (
-            <MultiSelectField
-              id={field.name}
-              label="Cechy produktu"
-              options={PRODUCT_CHARACTERISTICS}
-              value={field.state.value}
-              onChange={field.handleChange}
-              onBlur={field.handleBlur}
-              error={fieldError(field.state.meta)}
-            />
-          )}
-        </form.Field>
-      </form>
-    </div>
+    <form
+      noValidate
+      className="flex min-h-0 flex-1 flex-col"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (isLastStep) form.handleSubmit();
+        else goToNextStep();
+      }}
+    >
+      <ProductFormStepper currentStep={step} />
+
+      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4">
+        <Step form={form} />
+      </div>
+
+      <div className="flex justify-between gap-2 border-t border-border p-4">
+        <Button
+          type="button"
+          variant="outline"
+          disabled={step === 0}
+          onClick={() => setStep(step - 1)}
+        >
+          Wstecz
+        </Button>
+        <Button type="submit">{isLastStep ? "Dodaj produkt" : "Dalej"}</Button>
+      </div>
+    </form>
   );
 }

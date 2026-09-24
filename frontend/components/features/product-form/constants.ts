@@ -30,3 +30,14 @@ export const FORM_STEPS = [
   { id: "price", title: "Cena", subtitle: "Dane cenowe" },
   { id: "availability", title: "Dostępność", subtitle: "Stany magazynowe" },
 ];
+
+export const VAT_RATES: Option[] = [
+  { value: "23", label: "23%" },
+  { value: "8", label: "8%" },
+];
+
+export const CURRENCIES: Option[] = [
+  { value: "PLN", label: "PLN" },
+  { value: "EUR", label: "EUR" },
+  { value: "USD", label: "USD" },
+];

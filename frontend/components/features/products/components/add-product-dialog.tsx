@@ -7,16 +7,25 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { PRODUCT_FORM_ID, ProductForm } from "../../product-form/product-form";
+import { useProductForm } from "../../product-form/use-product-form";
 
 export function AddProductDialog() {
   const [open, setOpen] = useState(false);
+  const form = useProductForm();
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (!nextOpen) form.reset();
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="rounded-full">
           <PlusIcon />
@@ -31,7 +40,12 @@ export function AddProductDialog() {
           </DialogTitle>
         </DialogHeader>
 
-        FORM
+        <ProductForm form={form} />
+        <DialogFooter>
+        <Button type="submit" form={PRODUCT_FORM_ID}>
+          Submit
+        </Button>
+      </DialogFooter>
       </DialogContent>
     </Dialog>
   );

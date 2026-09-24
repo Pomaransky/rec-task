@@ -1,12 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { AddProductDialog } from ".";
 
 export function ProductsHeader({ total }: { total: number }) {
-  const handleAddProduct = () => {
-    console.log("Dodaj produkt");
-  };
   return (
     <header className="flex flex-wrap items-center justify-between gap-4">
       <div className="flex flex-col gap-1">
@@ -15,7 +11,7 @@ export function ProductsHeader({ total }: { total: number }) {
           {total} produktów w katalogu
         </p>
       </div>
-      <Button className="rounded-full" onClick={handleAddProduct}><PlusIcon />Dodaj produkt</Button>
+      <AddProductDialog />
     </header>
   );
 }

@@ -1,5 +1,5 @@
 import { Product, ProductStatus } from "../types";
-import { AvailabilityBadge } from "./availability-badge";
+import { AvailabilityBadge } from ".";
 
 export function ProductCard({ product }: { product: Product }) {
   return (

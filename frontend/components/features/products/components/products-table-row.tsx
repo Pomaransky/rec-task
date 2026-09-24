@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Product, ProductStatus } from "../types";
-import { AvailabilityBadge } from "./availability-badge";
+import { AvailabilityBadge } from ".";
 
 export function ProductTableRow({ product }: { product: Product }) {
   return (

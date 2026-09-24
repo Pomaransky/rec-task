@@ -1,7 +1,5 @@
 import { Product } from "../types";
-
-import { ProductCard } from "./product-card";
-import { ProductsPagination } from "./products-pagination";
+import { ProductCard, ProductsPagination } from ".";
 
 export function ProductsList({
   products,

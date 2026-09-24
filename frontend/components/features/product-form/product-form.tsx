@@ -4,6 +4,7 @@ import { InputField } from "./fields/input-field";
 import { MultiSelectField } from "./fields/multi-select-field";
 import { SelectField } from "./fields/select-field";
 import { TextareaField } from "./fields/textarea-field";
+import { ProductFormStepper } from "./product-form-stepper";
 import type { ProductFormApi } from "./use-product-form";
 
 export const PRODUCT_FORM_ID = "product-form";
@@ -14,11 +15,12 @@ type ProductFormProps = {
 
 export function ProductForm({ form }: ProductFormProps) {
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4">
+      <ProductFormStepper currentStep={0} />
       <form
         id={PRODUCT_FORM_ID}
         noValidate
-        className="flex min-h-0 flex-1 flex-col gap-4"
+        className="flex min-h-0 flex-1 flex-col gap-4 p-4"
         onSubmit={(event) => {
           event.preventDefault();
           form.handleSubmit();

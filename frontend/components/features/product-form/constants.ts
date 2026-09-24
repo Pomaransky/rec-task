@@ -24,3 +24,9 @@ export const PRODUCT_CHARACTERISTICS: Option[] = [
   { value: "ekologiczny", label: "Ekologiczny" },
   { value: "premium", label: "Premium" },
 ];
+
+export const FORM_STEPS = [
+  { id: "basic-info", title: "Informacje", subtitle: "Dane podstawowe" },
+  { id: "price", title: "Cena", subtitle: "Dane cenowe" },
+  { id: "availability", title: "Dostępność", subtitle: "Stany magazynowe" },
+];

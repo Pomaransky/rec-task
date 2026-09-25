@@ -1,8 +1,8 @@
 type FieldMeta = {
-  isTouched: boolean;
+  isBlurred: boolean;
   errors: ({ message: string } | undefined)[];
 };
 
-export function fieldError({ isTouched, errors }: FieldMeta) {
-  return isTouched ? errors.find(Boolean)?.message : undefined;
+export function fieldError({ isBlurred, errors }: FieldMeta) {
+  return isBlurred ? errors.find(Boolean)?.message : undefined;
 }

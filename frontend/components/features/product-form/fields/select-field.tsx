@@ -44,12 +44,11 @@ export function SelectField({
       <Select
         value={value === "" ? undefined : value}
         onValueChange={(next) => onChange(next as string)}
+        onOpenChange={(open) => {
+          if (!open) onBlur();
+        }}
       >
-        <SelectTrigger
-          id={id}
-          aria-invalid={!!error}
-          onBlur={onBlur}
-        >
+        <SelectTrigger id={id} aria-invalid={!!error}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent position="popper">

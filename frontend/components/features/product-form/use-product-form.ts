@@ -16,6 +16,9 @@ export function useProductForm(onSubmit: (values: ProductFormValues) => void) {
     validators: {
       onChange: productFormSchema,
     },
+    listeners: {
+      onBlur: ({ formApi }) => formApi.validate("change"),
+    },
     onSubmit: ({ value }) => onSubmit(value),
   });
 }

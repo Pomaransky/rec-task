@@ -22,14 +22,17 @@ export function ProductForm({ form }: ProductFormProps) {
   const isLastStep = step === FORM_STEPS.length - 1;
   const Step = STEPS[step];
 
-  const goToNextStep = async () => {
+  const submitStep = async () => {
     const fields = STEP_FIELDS[step].filter((name) => form.getFieldMeta(name));
 
-    fields.forEach((name) => form.setFieldMeta(name, (meta) => ({ ...meta, isTouched: true })));
+    fields.forEach((name) => form.setFieldMeta(name, (meta) => ({ ...meta, isBlurred: true })));
     await form.validate("change");
 
     const hasErrors = fields.some((name) => form.getFieldMeta(name)?.errors.length);
-    if (!hasErrors) setStep(step + 1);
+    if (hasErrors) return;
+
+    if (isLastStep) form.handleSubmit();
+    else setStep(step + 1);
   };
 
   return (
@@ -38,8 +41,7 @@ export function ProductForm({ form }: ProductFormProps) {
       className="flex min-h-0 flex-1 flex-col"
       onSubmit={(event) => {
         event.preventDefault();
-        if (isLastStep) form.handleSubmit();
-        else goToNextStep();
+        submitStep();
       }}
     >
       <ProductFormStepper currentStep={step} />

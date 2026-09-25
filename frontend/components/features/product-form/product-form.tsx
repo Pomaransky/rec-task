@@ -9,6 +9,7 @@ import { AvailabilityStep } from "./steps/availability-step";
 import { BasicInfoStep } from "./steps/basic-info-step";
 import { PricingStep } from "./steps/pricing-step";
 import { STEP_FIELDS, type ProductFormApi } from "./use-product-form";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
 type ProductFormProps = {
   form: ProductFormApi;
@@ -47,16 +48,17 @@ export function ProductForm({ form }: ProductFormProps) {
         <Step form={form} />
       </div>
 
-      <div className="flex justify-between gap-2 border-t border-border p-4">
+      <div className="flex justify-between gap-2 border-t border-border p-4 bg-muted/50">
         <Button
+          className="rounded-full bg-transparent hover:bg-white/50"
           type="button"
           variant="outline"
           disabled={step === 0}
           onClick={() => setStep(step - 1)}
         >
-          Wstecz
+          <ArrowLeftIcon className="text-foreground" /> Wstecz
         </Button>
-        <Button type="submit">{isLastStep ? "Dodaj produkt" : "Dalej"}</Button>
+        <Button type="submit" className="rounded-full">{isLastStep ? "Zapisz produkt" : <>Dalej <ArrowRightIcon /></>} </Button>
       </div>
     </form>
   );

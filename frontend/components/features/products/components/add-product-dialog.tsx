@@ -13,15 +13,29 @@ import {
 } from "@/components/ui/dialog";
 import { ProductForm } from "../../product-form/product-form";
 import { useProductForm } from "../../product-form/use-product-form";
+import { useProducts } from "../products-provider";
+import { ProductStatus } from "../types";
 
 export function AddProductDialog() {
   const [open, setOpen] = useState(false);
-  const form = useProductForm();
+  const { addProduct } = useProducts();
+  const form = useProductForm((values) => {
+    addProduct({
+      name: values.name,
+      sku: values.sku,
+      description: values.description,
+      category: values.category,
+      grossPrice: Number(values.grossPrice.replace(",", ".")),
+      status: values.isAvailable ? ProductStatus.AVAILABLE : ProductStatus.UNAVAILABLE,
+      stockQuantity: values.isLimited ? Number(values.stockQuantity) : null,
+    });
+    handleOpenChange(false);
+  });
 
-  const handleOpenChange = (nextOpen: boolean) => {
+  function handleOpenChange(nextOpen: boolean) {
     setOpen(nextOpen);
     if (!nextOpen) form.reset();
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>

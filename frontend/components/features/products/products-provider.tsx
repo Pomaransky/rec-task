@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import { PRODUCTS_MOCK } from "./products-mock";
 import { Product } from "./types";
 
 type ProductsContextValue = {
   products: readonly Product[];
+  addProduct: (product: Omit<Product, "id">) => Product;
 };
 
 const ProductsContext = createContext<ProductsContextValue | null>(null);
@@ -20,9 +21,15 @@ export function ProductsProvider({
 }) {
   const [products, setProducts] = useState<readonly Product[]>(initialProducts);
 
+  const addProduct = useCallback((product: Omit<Product, "id">) => {
+    const newProduct: Product = { ...product, id: crypto.randomUUID() };
+    setProducts((current) => [newProduct, ...current]);
+    return newProduct;
+  }, []);
+
   const value = useMemo<ProductsContextValue>(
-    () => ({ products }),
-    [products],
+    () => ({ products, addProduct }),
+    [products, addProduct],
   );
 
   return (

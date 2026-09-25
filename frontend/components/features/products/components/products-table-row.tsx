@@ -1,6 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Product, ProductStatus } from "../types";
-import { AvailabilityBadge } from "./availability-badge";
+import { formatPrice, getCategoryLabel } from "../utils";
+import { AvailabilityBadge } from ".";
 
 export function ProductTableRow({ product }: { product: Product }) {
   return (
@@ -12,10 +13,10 @@ export function ProductTableRow({ product }: { product: Product }) {
         {product.sku}
       </TableCell>
       <TableCell className="border-b border-border text-muted-foreground">
-        {product.category}
+        {getCategoryLabel(product.category)}
       </TableCell>
       <TableCell className="border-b border-border text-foreground">
-        {product.grossPrice}
+        {formatPrice(product.grossPrice, product.currency)}
       </TableCell>
       <TableCell className="border-b border-border">
         <AvailabilityBadge isAvailable={product.status === ProductStatus.AVAILABLE} />

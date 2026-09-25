@@ -8,9 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Product } from "../types";
-
-import { ProductsPagination } from "./products-pagination";
-import { ProductTableRow } from "./products-table-row";
+import { ProductsPagination, ProductTableRow } from ".";
 import { cn } from "cn";
 
 const COLUMNS = [

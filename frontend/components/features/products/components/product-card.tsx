@@ -1,5 +1,6 @@
 import { Product, ProductStatus } from "../types";
-import { AvailabilityBadge } from "./availability-badge";
+import { formatPrice, getCategoryLabel } from "../utils";
+import { AvailabilityBadge } from ".";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
@@ -22,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
             Kategoria
           </p>
           <p className="text-base leading-6 font-medium text-foreground">
-            {product.category}
+            {getCategoryLabel(product.category)}
           </p>
         </div>
         <div className="flex flex-col gap-1">
@@ -30,7 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
             Cena brutto
           </p>
           <p className="text-base leading-6 font-medium text-foreground">
-            {product.grossPrice}
+            {formatPrice(product.grossPrice, product.currency)}
           </p>
         </div>
         <div className="flex flex-col gap-1">

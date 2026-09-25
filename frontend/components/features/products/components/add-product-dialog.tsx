@@ -26,6 +26,7 @@ export function AddProductDialog() {
       description: values.description,
       category: values.category,
       grossPrice: Number(values.grossPrice.replace(",", ".")),
+      currency: values.currency,
       status: values.isAvailable ? ProductStatus.AVAILABLE : ProductStatus.UNAVAILABLE,
       stockQuantity: values.isLimited ? Number(values.stockQuantity) : null,
     });

@@ -5,6 +5,7 @@ export type Product = {
   category: string;
   description: string;
   grossPrice: number;
+  currency: string;
   status: ProductStatus;
   stockQuantity: number | null;
 };
